@@ -1,5 +1,6 @@
 package Pages;
 
+import Data.DataHelper;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -8,6 +9,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CartPage {
     private final SelenideElement cartProducts = $x("//*[@id=\"tbodyid\"]");
@@ -18,9 +20,10 @@ public class CartPage {
         cartProducts.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
 
-    public int getTotal() {
-        total.shouldBe(Condition.visible);
-        return Integer.parseInt(total.getText());
+    public void assertTotal() {
+        if (Integer.parseInt(total.shouldBe(Condition.visible).getText()) ==
+        getAmount()) placeOrder();
+        else System.out.println("Total isn`t equal amount");
     }
 
     public int getAmount() {
@@ -32,8 +35,9 @@ public class CartPage {
         return amount;
     }
 
-    public PlaceOrder placeOrder() {
+    public void placeOrder() {
         placeOrder.click();
-        return new PlaceOrder();
+        new PlaceOrder().setPurchase(DataHelper.getPlaceOrderInfo());
+      //  return
     }
 }

@@ -12,6 +12,7 @@ public class LoginPage {
 
     public void loginWithTestData(DataHelper.AuthInfo authInfo) {
         username.setValue(authInfo.getLogin());
+        if (username.getText().equals("")) username.setValue(authInfo.getLogin());
         password.setValue(authInfo.getPassword());
         buttonLogin.click();
     }

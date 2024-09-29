@@ -1,5 +1,6 @@
 package Pages;
 
+import Data.DataHelper;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -8,8 +9,8 @@ import java.time.Duration;
 import java.util.Random;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$$x;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HomePage {
     private final SelenideElement home = $x("//*[@id=\"nava\"]");
@@ -25,9 +26,12 @@ public class HomePage {
     int selectItem;
     ElementsCollection products;
 
-    public int orderWhat(String what) {
-        itsems.findBy(Condition.text(what)).click();
-        return getPriceFromList();
+    public void orderWhat(String what) {
+        itsems.findBy(Condition.exactText(what)).click();
+        int priceList = getPriceFromList();
+        products.get(selectItem).click();
+        int priceCard = new ProductPage().addToCart();
+        assertEquals(priceList, priceCard);
     }
 
     private int getPriceFromList() {
@@ -44,9 +48,14 @@ public class HomePage {
          return new ProductPage();
     }
 
-    public LoginPage login() {
+    public void login(DataHelper.AuthInfo authInfo) {
         logIn.click();
-        return new LoginPage();
+        new LoginPage().loginWithTestData(authInfo);
+    }
+
+    public DataHelper.AuthInfo signup() {
+        signUp.click();
+        return new SignupPage().registerNewUser();
     }
 
 

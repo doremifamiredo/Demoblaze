@@ -22,7 +22,9 @@ public class ProductPage {
         var cut = priceFromCard.indexOf(" ");
         priceFromCard = priceFromCard.substring(1, cut);
         buttonAddToCart.click();
-        Selenide.switchTo().alert().accept();
+        String msg = Selenide.switchTo().alert().getText();
+        if (msg.equals("Product added.")) Selenide.switchTo().alert().accept();
+        backHome.click();
         return Integer.parseInt(priceFromCard);
     }
 

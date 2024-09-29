@@ -9,9 +9,7 @@ public class DataHelper {
      static Faker faker = new Faker();
      static Random random = new Random();
 
-    public static AuthInfo testData() {
-        return new AuthInfo("doremi@fasollasi.ru", "qwerty");
-    }
+  //  public static AuthInfo testData() { return new AuthInfo("doremi@fasollasi.ru", "qwerty"); }
 
     public static PlaceOrderInfo getPlaceOrderInfo() {
         return new PlaceOrderInfo(faker.name().firstName(), faker.country().name(),
@@ -19,8 +17,8 @@ public class DataHelper {
                 Integer.toString(random.nextInt(12)), "2025");
     }
 
-    public static void generateValidUser() {
-
+    public static AuthInfo generateValidUser() {
+        return new AuthInfo(faker.internet().emailAddress(), faker.internet().password());
     }
 
     @Value
